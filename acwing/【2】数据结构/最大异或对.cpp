@@ -18,6 +18,7 @@ int idx = 0;
 void insert(int x){
     int p = 0;
     for(int i = 31;i >= 0;i--){
+        // &s表示引用，直接引用son[p][x >> i &1]这个数
         int &s = son[p][x >> i &1];
         // idx用于记录节点中节点数的总数
         if(!s) s = ++idx;
