@@ -3,7 +3,7 @@
 
 using namespace std;
 typedef long long ll;
-typedef pair<int, int> p;
+typedef pair<int, int> pp;
 
 const int N = 100010;
 
