@@ -6,42 +6,38 @@ typedef long long ll;
 typedef pair<int, int> pp;
 
 const int N = 100010;
-const int M = 2 * N;
+int n = 0;
+vector<vector<int>> g(N);
+vector<bool> st(N);
 
-int n;
-int h[N], e[M], ne[M], idx;
-bool st[N];
 int ans = N;
 
-void add(int a, int b){
-    e[idx] = b, ne[idx] = h[a], h[a] = idx++;
-}
-
+// 返回以x为根的子树中点的数量
 int dfs(int x){
-    st[x] = true;
     int sum = 1, res = 0;
-    for(int i = h[x];i != -1;i = ne[i]){
-        int j = e[i];
-        if(!st[j]){
-            int s = dfs(j);
+    st[x] = true;
+
+    // 遍历当前顶点x的所有邻接顶点
+    for(int y : g[x]){
+        if(!st[y]){
+            int s = dfs(y);
             res = max(res, s);
             sum += s;
         }
     }
 
     res = max(res, n-sum);
-    ans = min(ans, res);
+    ans = min(res, ans);
     return sum;
 }
 
 void solve(){
-    memset(h, -1, sizeof h);
     cin >> n;
-    for(int i = 1;i <= n-1;i++){
+    for(int i = 0;i < n-1;i++){
         int a, b;
         cin >> a >> b;
-        add(a, b);
-        add(b, a);
+        g[a].push_back(b);
+        g[b].push_back(a);
     }
     dfs(1);
     cout << ans << endl;

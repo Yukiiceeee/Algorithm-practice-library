@@ -6,45 +6,43 @@ typedef long long ll;
 typedef pair<int, int> pp;
 
 const int N = 100010;
-const int M = 2 * N;
 
-int n;
-int h[N], e[M], ne[M], idx;
-bool st[N];
-int ans = N;
+int n, m;
+int h[N], ne[2*N], e[2*N], idx;
+int d[N], q[N];
 
 void add(int a, int b){
     e[idx] = b, ne[idx] = h[a], h[a] = idx++;
 }
 
-int dfs(int x){
-    st[x] = true;
-    int sum = 1, res = 0;
-    for(int i = h[x];i != -1;i = ne[i]){
-        int j = e[i];
-        if(!st[j]){
-            int s = dfs(j);
-            res = max(res, s);
-            sum += s;
+int bfs(int x){
+    int hh, tt = 0;
+    q[0] = x;
+    d[x] = 0;
+    
+    while(hh <= tt){
+        int t = q[hh++];
+        for(int i = h[t];i != -1;i = ne[i]){
+            int j = e[i];
+            if(d[j] == -1){
+                d[j] = d[t] + 1;
+                q[++tt] = j;
+            }
         }
     }
-
-    res = max(res, n-sum);
-    ans = min(ans, res);
-    return sum;
+    return d[n];
 }
 
 void solve(){
+    cin >> n >> m;
+    memset(d, -1 ,sizeof d);
     memset(h, -1, sizeof h);
-    cin >> n;
-    for(int i = 1;i <= n-1;i++){
+    for(int i = 1;i <= m;i++){
         int a, b;
         cin >> a >> b;
         add(a, b);
-        add(b, a);
     }
-    dfs(1);
-    cout << ans << endl;
+    cout << bfs(1) << endl;
 }
 
 int main(){
