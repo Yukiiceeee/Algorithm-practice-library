@@ -27,8 +27,7 @@ void solve(){
         }
     }
 
-    int ans = 0;
-    for(int i = 0;i <= v;i++) ans = max(ans, f[n][i]);
+    int ans = f[n][v];
     cout << ans << endl;
 }
 
